@@ -14,4 +14,4 @@ RUN go install github.com/mchudnovskiy/envoy-experiments/cmd/simple_http
 ENTRYPOINT /go/bin/simple_http
 
 # Document that the service listens on port 8080.
-EXPOSE 8080
+EXPOSE 7777
