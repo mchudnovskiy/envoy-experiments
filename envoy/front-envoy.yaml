@@ -21,28 +21,28 @@ static_resources:
               - match:
                   prefix: "/"
                 route:
-                  cluster: health-check-service
+                  cluster: health-check-test
           http_filters:
           - name: envoy.router
             typed_config: {}
   clusters:
-  - name: health-check-service
+  - name: health-check-test
     connect_timeout: 15s
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: health-check-service
+      cluster_name: health-check-test
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
-                address: simple_http2
+                address: first
                 port_value: 7777
         - endpoint:
             address:
               socket_address:
-                address: simple_http4
+                address: second
                 port_value: 7777             
     health_checks:
       timeout: 2s
@@ -51,7 +51,7 @@ static_resources:
       healthy_threshold: 3
       no_traffic_interval: 60s
       event_log_path: /dev/stdout
-      always_log_health_check_failures: true
+      always_log_health_check_failures: false
       http_health_check:
         path: /  
 admin:
