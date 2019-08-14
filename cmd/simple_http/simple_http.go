@@ -18,5 +18,5 @@ func HelloServer(w http.ResponseWriter, r *http.Request) {
 }
 
 func MakeGreeting(name string) string {
-	return fmt.Sprintf("Hello, %s!\n\n\n\n", name)
+	return fmt.Sprintf("Hello, %s!", name)
 }
