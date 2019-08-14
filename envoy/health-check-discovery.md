@@ -57,9 +57,9 @@ Expected:
       - envoy `/clusters` output has one 'pending_dynamic_removal' endpoint that will be removed after 3 unsuccessfull hc-requests
   3. All endpoints are healthy again.
       -  envoy `/clusters` output has two healthy enpoints after 3 successfull hc-requests to the first endpoint, and all endpoints are getting envoy's hc-requests
-***
+
 ## All endpoints are healthy
-After start on both endpoints we have envoy’s HC-requests with one min period (no_traffic_interval: 60s).
+After start on both endpoints we have envoy’s hc-requests with one min period (no_traffic_interval: 60s).
 
 Endpoints log sample:
 ```
@@ -85,7 +85,7 @@ Envoy log has healthy_event records for both endpoints:
 
 *Notice: The first and second endpoints received addresses 172.18.0.2 and 172.18.0.3 respectively.*
 
-After a few requests to envoy (`curl localhost:8888/test`) we can see, that  HC period has been changed to one sec.
+After a few requests to envoy (`curl localhost:8888/test`) we can see, that  hc period has been changed to one sec.
 
 Endpoints log sample:
 ```
@@ -159,6 +159,7 @@ external_service::172.18.0.3:7777::local_origin_success_rate::-1
 After we turn off the first endpoint, the envoy  starts the procedure of endpoint removal from the cluster after the first unsuccessful HC-request. 
 
 This can be seen on the `health_flags::/pending_dynamic_removal` for the first endpoint at 172.18.0.2 
+
 Envoy `/clusters` output: 
 ```
 external_service::default_priority::max_connections::1024
