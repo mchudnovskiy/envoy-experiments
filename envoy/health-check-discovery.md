@@ -43,18 +43,18 @@ docker run --rm --name=first -it --net=envoy-exp  -d simple_http
 
 docker run --rm --name=second -it --net=envoy-exp  -d simple_http
 
-docker run --rm --name=envoy --net=envoy-experiments -it -d -v=$PWD:/config  -p 8888:8888 -p 9999:9999 envoyproxy/envoy /usr/local/bin/envoy -c config/proxy.yaml
+docker run --rm --name=envoy --net=envoy-exp -it -d -v=$PWD:/config  -p 8888:8888 -p 9999:9999 envoyproxy/envoy /usr/local/bin/envoy -c config/proxy.yaml
 ```
 Test case actions: 
-1. All endpoints are healthy. Run envoy and two http endpoints locally in docker and check logs and envoy **`/clusters`**  output.
-2. The first endpoint becomes unhealthy. Stop the first enpoint and check  logs and envoy **`/clusters`**  output.
-3. All endpoints are healthy again. Start the first endpoint and check  logs and envoy **`/clusters`**  output.
+1. All endpoints are healthy. Run envoy and two http endpoints locally in docker and check logs and envoy `/clusters` output.
+2. The first endpoint becomes unhealthy. Stop the first enpoint and check  logs and envoy `/clusters`  output.
+3. All endpoints are healthy again. Start the first endpoint and check  logs and envoy `/clusters`  output.
 
 Expected results:
   1. All endpoints are healthy:
       -  envoy `/clusters` output has two healthy enpoints, and all endpoints are getting envoy's hc-requests at one min period without traffic or one sec period with traffic
   2. One unhealthy endpoint:
-      - envoy `/clusters` output has one 'pending_dynamic_removal' endpoint that will be removed after 3 unsuccessfull hc-requests
+      - envoy `/clusters` output has one 'pending_dynamic_removal' endpoint that will be removed after 3 unsuccessful hc-requests
   3. All endpoints are healthy again.
       -  envoy `/clusters` output has two healthy enpoints after 3 successfull hc-requests to the first endpoint, and all endpoints are getting envoy's hc-requests
 
@@ -209,13 +209,13 @@ external_service::172.18.0.3:7777::success_rate::-1
 external_service::172.18.0.3:7777::local_origin_success_rate::-1
 ```
 
-After three unsuccessful HC-requests envoy marks endpoint 172.18.0.2 as 'unhealthy' and removes it from cluster external_service.
+After three unsuccessful hc-requests envoy marks endpoint 172.18.0.2 as 'unhealthy' and removes it from cluster external_service.
 
 Envoy log:
 ```
 {"health_checker_type":"HTTP","host":{"socket_address":{"protocol":"TCP","address":"172.18.0.2","resolver_name":"","ipv4_compat":false,"port_value":7777}},"cluster_name":"external_service","eject_unhealthy_event":{"failure_type":"NETWORK"},"timestamp":"2019-08-05T13:05:21.471Z"}
 ```
-Envoy `/clusters` output after 3rd unsuccessful HC:
+Envoy `/clusters` output after 3rd unsuccessful hc:
 ```external_service::default_priority::max_connections::1024
 external_service::default_priority::max_pending_requests::1024
 external_service::default_priority::max_requests::1024
