@@ -47,10 +47,10 @@ docker run --rm --name=envoy --net=envoy-experiments -it -d -v=$PWD:/config  -p 
 ```
 Test case actions: 
 1. All endpoints are healthy. Run envoy and two http endpoints locally in docker and check logs and envoy **`/clusters`**  output.
-2. The first endpoint becomes unhealthy. Stop the second enpoint and check  logs and envoy **`/clusters`**  output.
-3. All endpoints are healthy again. Start the second endpoint and check  logs and envoy **`/clusters`**  output.
+2. The first endpoint becomes unhealthy. Stop the first enpoint and check  logs and envoy **`/clusters`**  output.
+3. All endpoints are healthy again. Start the first endpoint and check  logs and envoy **`/clusters`**  output.
 
-Expected:
+Expected results:
   1. All endpoints are healthy:
       -  envoy `/clusters` output has two healthy enpoints, and all endpoints are getting envoy's hc-requests at one min period without traffic or one sec period with traffic
   2. One unhealthy endpoint:
